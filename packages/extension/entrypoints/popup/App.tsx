@@ -18,7 +18,7 @@ function App() {
 			</div>
 			<h1>WXT + Solid</h1>
 			<div class="card">
-				<button onClick={() => setCount((count) => count + 1)}>
+				<button onClick={() => setCount((count) => count + 1)} type="button">
 					count is {count()}
 				</button>
 				<p>
