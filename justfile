@@ -57,6 +57,56 @@ build-extension: _check-node_modules
 build-extension-firefox: _check-node_modules
     pnpm build:firefox
 
+# Linting and Formatting
+
+# Run all checks (format, lint)
+[group('quality')]
+check-all: check-format-js check-lint-js check-format-rust check-lint-rust
+
+# Run all fixes (format, lint)
+[group('quality')]
+fix-all: format-js lint-js format-rust lint-rust
+
+# Format JavaScript with fixes
+[group('quality')]
+format-js: _check-node_modules
+    pnpm format:fix
+
+# Format Rust code
+[group('quality')]
+format-rust:
+    cargo fmt --all
+
+# Check JavaScript formatting (no fixes)
+[group('quality')]
+check-format-js: _check-node_modules
+    pnpm format
+
+# Check Rust formatting (no fixes)
+[group('quality')]
+check-format-rust:
+    cargo fmt --all --check
+
+# Lint JavaScript with fixes
+[group('quality')]
+lint-js: _check-node_modules
+    pnpm lint:fix
+
+# Lint Rust code with fixes
+[group('quality')]
+lint-rust:
+    cargo clippy --all-targets --all-features --fix
+
+# Check JavaScript linting (no fixes)
+[group('quality')]
+check-lint-js: _check-node_modules
+    pnpm lint
+
+# Check Rust linting (no fixes)
+[group('quality')]
+check-lint-rust:
+    cargo clippy --all-targets --all-features
+
 # Utilities
 
 # Clean all artifacts
