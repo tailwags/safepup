@@ -95,7 +95,7 @@ lint-js: _check-node_modules
 # Lint Rust code with fixes
 [group('quality')]
 lint-rust:
-    cargo clippy --all-targets --all-features --fix
+    cargo clippy --all-targets --all-features --fix --allow-staged
 
 # Check JavaScript linting (no fixes)
 [group('quality')]
