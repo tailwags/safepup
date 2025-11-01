@@ -3,18 +3,12 @@ export PATH := "./node_modules/.bin:" + env_var('PATH')
 _:
     @just --list
 
-# Install js packages and fetch rust crates
-[group('setup')]
-install:
-    pnpm install
-    cargo fetch
-
 # Development
 
 # Start both server and dashboard in watch mode
 [group('dev')]
-dev:
-    concurrently -n server,client -c green,blue 'just dev-server' 'just dev-client'
+dev: _check-node_modules
+    @concurrently -n server,client -c green,blue 'just dev-server' 'just dev-client'
 
 # Start server in watch mode
 [group('dev')]
@@ -25,7 +19,7 @@ dev-server log="debug":
 # Start the dashboard in watch mode
 [group('dev')]
 [working-directory('packages/dashboard')]
-dev-client:
+dev-client: _check-node_modules
     pnpm dev
 
 # Building
@@ -42,25 +36,25 @@ build-server:
 # Build dashboard
 [group('build')]
 [working-directory('packages/dashboard')]
-build-client:
+build-client: _check-node_modules
     pnpm build
 
 # Build components library
 [group('build')]
 [working-directory('packages/components')]
-build-components:
+build-components: _check-node_modules
     pnpm build
 
 # Build browser extension
 [group('build')]
 [working-directory('packages/extension')]
-build-extension:
+build-extension: _check-node_modules
     pnpm build
 
 # Build firefox extension
 [group('build')]
 [working-directory('packages/extension')]
-build-extension-firefox:
+build-extension-firefox: _check-node_modules
     pnpm build:firefox
 
 # Utilities
@@ -79,3 +73,11 @@ clean-js:
 [group('utils')]
 clean-rust:
     cargo clean
+
+# Internal stuff
+
+_check-node_modules:
+    @if [ ! -d node_modules ]; then \
+        printf '\033[0;33m⚠️ node_modules not found, running pnpm install...\033[0m\n'; \
+        pnpm install; \
+    fi
