@@ -1,5 +1,5 @@
 import { defineConfig } from 'tsdown'
-import solid from 'rolldown-plugin-solid'
+import solid from 'unplugin-solid/rolldown'
 
 // export both js and jsx
 export default defineConfig([
