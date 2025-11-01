@@ -11,7 +11,7 @@ async fn main() -> Result<()> {
 
     let app = Router::new().route("/", get(handler));
 
-    let listener = TcpListener::bind((Ipv4Addr::UNSPECIFIED, 3131))
+    let listener = TcpListener::bind((Ipv4Addr::UNSPECIFIED, 7297))
         .await
         .context("Failed to create tcp listener")?;
 
