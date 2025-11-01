@@ -21,16 +21,16 @@ importers:
         specifier: ^6.9.1
         version: 6.9.1
       '@types/node':
-        specifier: ^24.9.1
+        specifier: ^24.9.2
         version: 24.9.2
       bumpp:
         specifier: ^10.3.1
         version: 10.3.1(magicast@0.3.5)
       happy-dom:
-        specifier: ^20.0.8
+        specifier: ^20.0.10
         version: 20.0.10
       tsdown:
-        specifier: ^0.15.9
+        specifier: ^0.15.12
         version: 0.15.12(typescript@5.9.3)
       typescript:
         specifier: ^5.9.3
@@ -45,7 +45,7 @@ importers:
         specifier: ^2.11.10
         version: 2.11.10(@testing-library/jest-dom@6.9.1)(rolldown-vite@7.1.20(@types/node@24.9.2)(esbuild@0.25.11)(jiti@2.6.1)(yaml@2.8.1))(solid-js@1.9.10)
       vitest:
-        specifier: ^4.0.1
+        specifier: ^4.0.6
         version: 4.0.6(@types/debug@4.1.12)(@types/node@24.9.2)(happy-dom@20.0.10)(jiti@2.6.1)(lightningcss@1.30.2)(yaml@2.8.1)
 
   packages/dashboard:
