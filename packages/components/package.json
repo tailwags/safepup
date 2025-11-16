@@ -36,8 +36,8 @@
 		"play": "vite --config playground/vite.config.ts",
 		"test": "vitest",
 		"typecheck": "tsc --noEmit",
-		"release": "bumpp && pnpm publish",
-		"prepublishOnly": "pnpm run build"
+		"release": "bumpp && bun publish",
+		"prepublishOnly": "bun run build"
 	},
 	"peerDependencies": {
 		"solid-js": "^1.9.9"
@@ -45,14 +45,14 @@
 	"devDependencies": {
 		"@solidjs/testing-library": "^0.8.10",
 		"@testing-library/jest-dom": "^6.9.1",
-		"@types/node": "^24.9.2",
+		"@types/node": "^24.10.1",
 		"bumpp": "^10.3.1",
 		"happy-dom": "^20.0.10",
-		"tsdown": "^0.15.12",
+		"tsdown": "^0.16.4",
 		"typescript": "^5.9.3",
 		"unplugin-solid": "^1.0.0",
 		"vite": "npm:rolldown-vite@latest",
 		"vite-plugin-solid": "^2.11.10",
-		"vitest": "^4.0.6"
+		"vitest": "^4.0.9"
 	}
 }

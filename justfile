@@ -12,15 +12,15 @@ dev: _check-node_modules
 
 # Start server in watch mode
 [group('dev')]
-[working-directory('crates/server')]
-dev-server log="debug":
-    RUST_LOG={{ log }} watchexec -w src -e rs -w Cargo.toml -r -- cargo run
+[working-directory('packages/server')]
+dev-server: _check-node_modules
+    bun run dev
 
 # Start the dashboard in watch mode
 [group('dev')]
 [working-directory('packages/dashboard')]
 dev-client: _check-node_modules
-    pnpm dev
+    bun run dev
 
 # Building
 
@@ -30,104 +30,76 @@ build-all: build-server build-client build-components build-extension build-exte
 
 # Build server
 [group('build')]
-build-server:
-    cargo build --release --package safepup-server
+[working-directory('packages/server')]
+build-server: _check-node_modules
+    bun run build
 
 # Build dashboard
 [group('build')]
 [working-directory('packages/dashboard')]
 build-client: _check-node_modules
-    pnpm build
+    bun run build
 
 # Build components library
 [group('build')]
 [working-directory('packages/components')]
 build-components: _check-node_modules
-    pnpm build
+    bun run build
 
 # Build browser extension
 [group('build')]
 [working-directory('packages/extension')]
 build-extension: _check-node_modules
-    pnpm build
+    bun run build
 
 # Build firefox extension
 [group('build')]
 [working-directory('packages/extension')]
 build-extension-firefox: _check-node_modules
-    pnpm build:firefox
+    bun run build:firefox
 
 # Linting and Formatting
 
 # Run all checks (format, lint)
 [group('quality')]
-check-all: check-format-js check-lint-js check-format-rust check-lint-rust
+check-all: check-format check-lint
 
 # Run all fixes (format, lint)
 [group('quality')]
-fix-all: format-js lint-js format-rust lint-rust
+fix-all: format lint
 
-# Format JavaScript with fixes
+# Format code with fixes
 [group('quality')]
-format-js: _check-node_modules
-    pnpm format:fix
+format: _check-node_modules
+    bun run format:fix
 
-# Format Rust code
+# Check formatting (no fixes)
 [group('quality')]
-format-rust:
-    cargo fmt --all
+check-format: _check-node_modules
+    bun run format
 
-# Check JavaScript formatting (no fixes)
+# Lint code with fixes
 [group('quality')]
-check-format-js: _check-node_modules
-    pnpm format
+lint: _check-node_modules
+    bun run lint:fix
 
-# Check Rust formatting (no fixes)
+# Check linting (no fixes)
 [group('quality')]
-check-format-rust:
-    cargo fmt --all --check
-
-# Lint JavaScript with fixes
-[group('quality')]
-lint-js: _check-node_modules
-    pnpm lint:fix
-
-# Lint Rust code with fixes
-[group('quality')]
-lint-rust:
-    cargo clippy --all-targets --all-features --fix --allow-staged
-
-# Check JavaScript linting (no fixes)
-[group('quality')]
-check-lint-js: _check-node_modules
-    pnpm lint
-
-# Check Rust linting (no fixes)
-[group('quality')]
-check-lint-rust:
-    cargo clippy --all-targets --all-features
+check-lint: _check-node_modules
+    bun run lint
 
 # Utilities
 
 # Clean all artifacts
 [group('utils')]
-clean: clean-js clean-rust
-
-# Clean js related artifacts
-[group('utils')]
-clean-js:
+clean:
     rm -rf node_modules packages/*/node_modules
     rm -rf packages/*/.astro packages/*/.output packages/*/dist packages/*/.wxt
-
-# Clean rust related artifacts
-[group('utils')]
-clean-rust:
-    cargo clean
 
 # Internal stuff
 
 _check-node_modules:
     @if [ ! -d node_modules ]; then \
-        printf '\033[0;33m⚠️ node_modules not found, running pnpm install...\033[0m\n'; \
-        pnpm install; \
+        printf '\033[0;33m⚠️ node_modules not found, running bun install...\033[0m\n'; \
+        bun install; \
     fi
