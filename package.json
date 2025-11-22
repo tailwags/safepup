@@ -3,9 +3,16 @@
 	"type": "module",
 	"version": "0.0.0",
 	"private": true,
-	"workspaces": [
-		"packages/*"
-	],
+	"workspaces": {
+		"packages": [
+			"packages/*"
+		],
+		"catalog": {
+			"better-auth": "^1.4.1",
+			"solid-js": "^1.9.10",
+			"typescript": "^5.9.3"
+		}
+	},
 	"scripts": {
 		"format": "prettier --check .",
 		"format:fix": "prettier --write --list-different .",

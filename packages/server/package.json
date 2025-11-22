@@ -10,12 +10,11 @@
 		"test": "bun test"
 	},
 	"dependencies": {
+		"better-auth": "catalog:",
 		"elysia": "^1.4.16"
 	},
 	"devDependencies": {
-		"@types/bun": "latest"
-	},
-	"peerDependencies": {
-		"typescript": "^5"
+		"@types/bun": "latest",
+		"typescript": "catalog:"
 	}
 }
