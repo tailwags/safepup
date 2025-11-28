@@ -16,13 +16,14 @@
 	"scripts": {
 		"format": "prettier --check .",
 		"format:fix": "prettier --write --list-different .",
-		"lint": "biome lint",
-		"lint:fix": "biome lint --write --unsafe"
+		"lint": "oxlint",
+		"lint:fix": "oxlint --fix"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.3.7",
+		"@prettier/plugin-oxc": "^0.1.1",
 		"concurrently": "^9.2.1",
-		"prettier": "3.6.2",
+		"oxlint": "^1.30.0",
+		"prettier": "3.7.1",
 		"prettier-plugin-astro": "0.14.1",
 		"prettier-plugin-tailwindcss": "0.7.1",
 		"vite": "npm:rolldown-vite@latest"

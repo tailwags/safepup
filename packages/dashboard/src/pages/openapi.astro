@@ -1,5 +1,5 @@
 ---
-import Login from '@/components/Login';
+import Scalar from '@/components/Scalar.vue';
 ---
 
 <html lang="en">
@@ -7,10 +7,9 @@ import Login from '@/components/Login';
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
+		<title>Safepup OpenAPI</title>
 	</head>
 	<body>
-		<Login />
+		<Scalar client:only="vue" />
 	</body>
 </html>
