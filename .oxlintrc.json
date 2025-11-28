@@ -10,5 +10,12 @@
     "promise",
     "vitest"
   ],
-  "categories": {}
+  "categories": {
+    "correctness": "error",
+    "suspicious": "warn",
+    "perf": "warn"
+  },
+  "rules": {
+    "no-unassigned-import": "allow"
+  }
 }

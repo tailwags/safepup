@@ -1,5 +1,6 @@
 import { createSignal } from 'solid-js';
 import solidLogo from '@/assets/solid.svg';
+// oxlint-disable-next-line no-absolute-path
 import wxtLogo from '/wxt.svg';
 import './App.css';
 
