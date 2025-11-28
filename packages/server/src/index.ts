@@ -1,18 +1,20 @@
 import { Elysia } from 'elysia';
-import { auth, BetterAuthOpenAPI } from './auth';
-import { openapi, fromTypes } from '@elysiajs/openapi';
+import { auth, getBetterAuthOpenAPISchema } from './auth';
+import { fromTypes, openapi } from '@elysiajs/openapi';
 
 export const app = new Elysia({ prefix: '/api/v1' })
 	.use(
-		openapi({
-			references: fromTypes(),
-			documentation: {
-				components: await BetterAuthOpenAPI.components,
-				paths: await BetterAuthOpenAPI.getPaths('/api/v1/auth'),
-			},
-			provider: null,
-			specPath: '/openapi.json',
-		}),
+		getBetterAuthOpenAPISchema('/api/v1/auth').then(({ components, paths }) =>
+			openapi({
+				references: fromTypes(),
+				documentation: {
+					paths,
+					components,
+				},
+				provider: null,
+				specPath: '/openapi.json',
+			}),
+		),
 	)
 	.mount(auth.handler)
 	.listen(3000);

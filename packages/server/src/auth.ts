@@ -14,26 +14,24 @@ export const auth = betterAuth({
 	plugins: [openAPI()],
 });
 
-let _schema: ReturnType<typeof auth.api.generateOpenAPISchema>;
-const getSchema = async () => (_schema ??= auth.api.generateOpenAPISchema());
+export const getBetterAuthOpenAPISchema = (prefix: string) => {
+	return auth.api.generateOpenAPISchema().then(({ paths, components }) => {
+		const reference: typeof paths = Object.create(null);
 
-export const BetterAuthOpenAPI = {
-	getPaths: (prefix: string) =>
-		getSchema().then(({ paths }) => {
-			const reference: typeof paths = Object.create(null);
+		for (const path of Object.keys(paths)) {
+			const key = prefix + path;
+			reference[key] = paths[path]!;
 
-			for (const path of Object.keys(paths)) {
-				const key = prefix + path;
-				reference[key] = paths[path]!;
+			for (const method of Object.keys(paths[path]!)) {
+				const operation = (reference[key] as any)[method];
 
-				for (const method of Object.keys(paths[path]!)) {
-					const operation = (reference[key] as any)[method];
-
-					operation.tags = ['Auth'];
-				}
+				operation.tags = ['Auth'];
 			}
+		}
 
-			return reference;
-		}) as Promise<any>,
-	components: getSchema().then(({ components }) => components) as Promise<any>,
-} as const;
+		return {
+			components: components as any,
+			paths: reference as any,
+		};
+	});
+};
