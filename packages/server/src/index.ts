@@ -1,13 +1,16 @@
 import { Elysia } from 'elysia';
 import { auth, getBetterAuthOpenAPISchema } from './auth';
-import { fromTypes, openapi } from '@elysiajs/openapi';
+import { openapi } from '@elysiajs/openapi';
 
 export const app = new Elysia({ prefix: '/api/v1' })
 	.use(
 		getBetterAuthOpenAPISchema('/api/v1/auth').then(({ components, paths }) =>
 			openapi({
-				references: fromTypes(),
 				documentation: {
+					info: {
+						title: 'SafePup Documentation',
+						version: '1',
+					},
 					paths,
 					components,
 				},
@@ -22,3 +25,5 @@ export const app = new Elysia({ prefix: '/api/v1' })
 console.log(
 	`SafePup is running at ${app.server?.hostname}:${app.server?.port}`,
 );
+
+export type SafePupAPI = typeof app;

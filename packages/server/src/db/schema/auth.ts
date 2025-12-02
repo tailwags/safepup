@@ -1,8 +1,17 @@
-import { relations } from 'drizzle-orm';
-import { pgTable, text, timestamp, boolean, index } from 'drizzle-orm/pg-core';
+import { relations, sql } from 'drizzle-orm';
+import {
+	pgTable,
+	text,
+	timestamp,
+	boolean,
+	uuid,
+	index,
+} from 'drizzle-orm/pg-core';
 
 export const user = pgTable('user', {
-	id: text('id').primaryKey(),
+	id: uuid('id')
+		.default(sql`pg_catalog.uuidv7()`)
+		.primaryKey(),
 	name: text('name').notNull(),
 	email: text('email').notNull().unique(),
 	emailVerified: boolean('email_verified').default(false).notNull(),
@@ -13,32 +22,15 @@ export const user = pgTable('user', {
 		.notNull(),
 });
 
-export const session = pgTable(
-	'session',
-	{
-		id: text('id').primaryKey(),
-		expiresAt: timestamp('expires_at').notNull(),
-		token: text('token').notNull().unique(),
-		createdAt: timestamp('created_at').notNull(),
-		updatedAt: timestamp('updated_at')
-			.$onUpdate(() => new Date())
-			.notNull(),
-		ipAddress: text('ip_address'),
-		userAgent: text('user_agent'),
-		userId: text('user_id')
-			.notNull()
-			.references(() => user.id, { onDelete: 'cascade' }),
-	},
-	(table) => [index('session_userId_idx').on(table.userId)],
-);
-
 export const account = pgTable(
 	'account',
 	{
-		id: text('id').primaryKey(),
+		id: uuid('id')
+			.default(sql`pg_catalog.uuidv7()`)
+			.primaryKey(),
 		accountId: text('account_id').notNull(),
 		providerId: text('provider_id').notNull(),
-		userId: text('user_id')
+		userId: uuid('user_id')
 			.notNull()
 			.references(() => user.id, { onDelete: 'cascade' }),
 		accessToken: text('access_token'),
@@ -59,7 +51,9 @@ export const account = pgTable(
 export const verification = pgTable(
 	'verification',
 	{
-		id: text('id').primaryKey(),
+		id: uuid('id')
+			.default(sql`pg_catalog.uuidv7()`)
+			.primaryKey(),
 		identifier: text('identifier').notNull(),
 		value: text('value').notNull(),
 		expiresAt: timestamp('expires_at').notNull(),
@@ -72,15 +66,7 @@ export const verification = pgTable(
 );
 
 export const userRelations = relations(user, ({ many }) => ({
-	sessions: many(session),
 	accounts: many(account),
-}));
-
-export const sessionRelations = relations(session, ({ one }) => ({
-	user: one(user, {
-		fields: [session.userId],
-		references: [user.id],
-	}),
 }));
 
 export const accountRelations = relations(account, ({ one }) => ({

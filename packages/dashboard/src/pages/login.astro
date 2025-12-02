@@ -1,0 +1,21 @@
+---
+import Base from '@/layouts/Base.astro';
+import LoginForm from '@/components/LoginForm';
+
+if (Astro.locals.session) {
+	return Astro.redirect('/');
+}
+---
+
+<Base>
+	<div class="bg-base-200 flex min-h-screen items-center justify-center p-4">
+		<div class="w-full max-w-md">
+			<LoginForm client:load />
+
+			<div class="text-base-content/70 mt-6 text-center text-sm">
+				<span> Don't have an account? </span>
+				<a class="link link-primary font-medium" href="/signup">Sign up</a>
+			</div>
+		</div>
+	</div>
+</Base>

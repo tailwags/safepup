@@ -1,16 +1,14 @@
 ---
-import Login from '@/components/Login';
+import DashBoard from '@/components/DashBoard';
+import Base from '@/layouts/Base.astro';
+
+const session = Astro.locals.session;
+
+if (!session) {
+	return Astro.redirect('/login');
+}
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<Login />
-	</body>
-</html>
+<Base>
+	<DashBoard initialSession={session} client:load />
+</Base>
