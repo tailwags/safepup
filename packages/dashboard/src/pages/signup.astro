@@ -8,13 +8,5 @@ if (Astro.locals.session) {
 ---
 
 <Base>
-	<div class="bg-base-200 flex min-h-screen items-center justify-center p-4">
-		<div class="w-full max-w-md">
-			<SignupForm client:load />
-			<div class="text-base-content/70 mt-6 text-center text-sm">
-				<span> Already have an account? </span>
-				<a class="link link-primary font-medium" href="/login">Login</a>
-			</div>
-		</div>
-	</div>
+	<SignupForm client:load />
 </Base>
